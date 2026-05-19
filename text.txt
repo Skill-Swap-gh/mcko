@@ -1,0 +1,105 @@
+#2
+for n in range(1,1000):
+    s = bin(n)[2:]
+    if n % 2 == 0:
+        s += '10'
+    else:
+        s = '1' + s + '00'
+    if int(s,2) > 107:
+        print(n)
+        break
+
+#3
+a = int("1011.01".replace(".", ""), 2) / (2 ** len("1011.01".split(".")[1])) #2 - это система счисления
+b = int("24.6".replace(".", ""), 8) / (8 ** len("24.6".split(".")[1])) #8 - это система счисления
+c = a + b
+d = hex(int(c)) #hex - перевод в 16 систему счисления
+print(d[2:])
+
+#5
+print('x y z w')
+for x in range(2):
+    for y in range(2):
+        for z in range(2):
+            for w in range(2):
+                if not((z == w) and (x <= y) or (not w)):
+                    print(x, y, z, w)
+
+#6
+from itertools import product
+for i, x in enumerate(product('авенс', repeat=4), 1):
+    s = ''.join(x)
+    if 'е' not in s and 'аа' not in s:
+        print(i)
+        break
+
+#7
+ip = "192.168.108.157"
+mask = "255.255.255.192"
+a, b, c, d = map(int, ip.split("."))
+e, f, g, h = map(int, mask.split("."))
+network = (a & e, b & f, c & g, d & h)
+host = (d - network[3])
+print(host)
+
+#8
+for d in range(1,40):
+    if (d *11) % ((5-1) * (7-1)) == 1:
+        print(d)
+
+#9
+a = 10 * 1024 * 1024 * 1024 // 4635815
+b = a * 8 // 2468
+c = 2**b
+print(c+1)
+
+#10
+from turtle import *
+tracer(0)
+left(90)
+k = 20
+for _ in range(3):
+    forward(12 * k)
+    left(270)
+    backward(10 * k)
+    right(90)
+pu()
+forward(6 * k)
+right(90)
+backward(4 * k)
+left(90)
+pd()
+for _ in range(4):
+    forward(16 * k)
+    right(270)
+    forward(8 * k)
+    right(270)
+pu()
+for x in range(-50, 50):
+    for y in range(-50, 50):
+        goto(x * k, y * k)
+        dot(5)
+done()
+
+#11
+for i in '0123456789ab':
+    f = int(f'154{i}3', 12) + int(f'1{i}365', 12)
+    if f % 13 == 0:
+        print(f // 13)
+
+#12
+#переводим число в двоичную систему счисления. делаем инверсию (меняем 0 на 1, а 1 на 0). складываем эти числа и единицу.
+#пример:
+#print(bin(38)[2:]). == 100110 (добавим 2 нуля спереди, т.к. просят построить восьмибитный двоичный код) == 00100110
+#инверсия == 11011001
+# 00100110 + 11011001 + 1 == 11011010 это ответ
+
+#13
+s = [int(x) for x in open('13.txt')]
+res = []
+n = min(x for x in s if x % 15 !=0)
+for i in range(len(s)-1):
+    if s[i] % n == 0 and s[i +1] % n == 0:
+        res.append(s[i] + s[i +1])
+print(len(res), max(res))
+

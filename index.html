@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Копирование текста</title>
+</head>
+<body>
+    <button id="copyButton">Скопировать текст из text.txt</button>
+
+    <script>
+        const button = document.getElementById('copyButton');
+
+        button.addEventListener('click', async () => {
+            try {
+
+                const response = await fetch('text.txt');
+
+                if (!response.ok) {
+                    throw new Error(`Не удалось загрузить файл. Статус: ${response.status}`);
+                }
+
+
+                const textFromFile = await response.text();
+
+
+                await navigator.clipboard.writeText(textFromFile);
+
+
+                alert('✅ Текст из text.txt скопирован в буфер обмена!');
+            } catch (error) {
+
+                console.error('Ошибка:', error);
+                alert(`❌ Ошибка: ${error.message}\n\nУбедитесь, что файл "text.txt" находится в той же папке, что и этот HTML-файл, и что вы открыли страницу через веб-сервер (например, через localhost).`);
+            }
+        });
+    </script>
+</body>
+</html>
