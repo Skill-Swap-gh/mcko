@@ -1,105 +1,134 @@
+#1
+from itertools import *
+tab = '345 467 14 123567 147 24 245'.split()
+pic = 'af fe ed cd bc bg ag fg eg dg cg'.split()
+print(*range(1, 8))
+for var in permutations('abcdefg'):
+    if all(str(var.index(x) + 1) in tab[var.index(y)] for x, y in pic):
+        print(*var)
+
 #2
-for n in range(1,1000):
-    s = bin(n)[2:]
-    if n % 2 == 0:
-        s += '10'
-    else:
-        s = '1' + s + '00'
-    if int(s,2) > 107:
-        print(n)
-        break
-
-#3
-a = int("1011.01".replace(".", ""), 2) / (2 ** len("1011.01".split(".")[1])) #2 - это система счисления
-b = int("24.6".replace(".", ""), 8) / (8 ** len("24.6".split(".")[1])) #8 - это система счисления
-c = a + b
-d = hex(int(c)) #hex - перевод в 16 систему счисления
-print(d[2:])
-
-#5
 print('x y z w')
 for x in range(2):
     for y in range(2):
         for z in range(2):
             for w in range(2):
-                if not((z == w) and (x <= y) or (not w)):
+                if ((x == (not z)) <= ((x or w) == y)) == 0:
                     print(x, y, z, w)
 
-#6
-from itertools import product
-for i, x in enumerate(product('авенс', repeat=4), 1):
-    s = ''.join(x)
-    if 'е' not in s and 'аа' not in s:
-        print(i)
+#5
+def f(N):
+    R = bin(N)[2:]
+    if N % 2 == 0:
+        R = "10" + R
+    else:
+        R = "1" + R + "01"
+    return int(R, 2)
+
+for N in range(1, 100):
+    if f(N) >= 190:
+        print(N)
         break
 
-#7
-ip = "192.168.108.157"
-mask = "255.255.255.192"
-a, b, c, d = map(int, ip.split("."))
-e, f, g, h = map(int, mask.split("."))
-network = (a & e, b & f, c & g, d & h)
-host = (d - network[3])
-print(host)
-
-#8
-for d in range(1,40):
-    if (d *11) % ((5-1) * (7-1)) == 1:
-        print(d)
-
-#9
-a = 10 * 1024 * 1024 * 1024 // 4635815
-b = a * 8 // 2468
-c = 2**b
-print(c+1)
-
-#10
+#6
 from turtle import *
-tracer(0)
-left(90)
-k = 20
-for _ in range(3):
-    forward(12 * k)
-    left(270)
-    backward(10 * k)
-    right(90)
-pu()
-forward(6 * k)
-right(90)
-backward(4 * k)
-left(90)
-pd()
-for _ in range(4):
-    forward(16 * k)
-    right(270)
-    forward(8 * k)
-    right(270)
-pu()
-for x in range(-50, 50):
-    for y in range(-50, 50):
+tracer(0) # рисунок сразу появляется
+lt(90) # на ось ординат
+screensize(2000, 2000) # полосы прокрутки
+k = 20 # коэффициент масштаба
+for i in range(3):
+    fd(11 * k)
+    rt(90)
+    fd(24 * k)
+    rt(90)
+up()
+fd(2 * k)
+rt(90)
+fd(5 * k)
+lt(90)
+down()
+for i in range(3):
+    fd(6 * k)
+    lt(90)
+    fd(9 * k)
+    lt(90)
+up()
+# расставляем точки
+for x in range(-1, 35):
+    for y in range(-1, 35):
         goto(x * k, y * k)
-        dot(5)
+        dot(3)
 done()
 
-#11
-for i in '0123456789ab':
-    f = int(f'154{i}3', 12) + int(f'1{i}365', 12)
-    if f % 13 == 0:
-        print(f // 13)
+#7
+from math import *
+for n in range(100000, 0, -1): # перебираем цвета
+    i = ceil(log2(n)) # пиксель в битах
+    pic = 192*960*i # 1 картинка
+    pic = 0.85*pic # сжимаем
+    if pic <= 90*1024*8:
+        print(n)
+        break
 
-#12
-#переводим число в двоичную систему счисления. делаем инверсию (меняем 0 на 1, а 1 на 0). складываем эти числа и единицу.
-#пример:
-#print(bin(38)[2:]). == 100110 (добавим 2 нуля спереди, т.к. просят построить восьмибитный двоичный код) == 00100110
-#инверсия == 11011001
-# 00100110 + 11011001 + 1 == 11011010 это ответ
+#8
+from itertools import *
+k=0
+for x in product(sorted('гранит'), repeat=6):
+    s = ''.join(x)
+    k+=1
+    if (k%2==1) and (s[0] not in 'аиг') and (s.count('а')==1):
+        print(k)
+        break
+
+#9
+f = open("9")
+cnt = 0
+for s in f:
+ #строки в числа
+    m = [int(x) for x in s.split()]
+    m.sort()
+ # первое условие выполнимо только с такими парами
+    if (m[0] * m[3]) == (m[1] * m[2]):
+ # второе условие
+        if m[-2]**2 > m[0] * m[3]:
+            cnt += 1
+print(cnt)
+
+#11
+from math import *
+for n in range(1, 1000):
+    i = ceil(log2(n))
+    ser = ceil(377 * i / 8)
+    if 23155 * ser > 5536 * 1024:
+        print(n)
+        break
 
 #13
-s = [int(x) for x in open('13.txt')]
-res = []
-n = min(x for x in s if x % 15 !=0)
-for i in range(len(s)-1):
-    if s[i] % n == 0 and s[i +1] % n == 0:
-        res.append(s[i] + s[i +1])
-print(len(res), max(res))
+from ipaddress import *
+# создаем сеть
+n = ip_network('211.46.0.0/255.255.128.0', 0)
+cnt = 0
+for ip in n:
+    s = f'{ip:b}' # заполняем ведущими нулями
+    if (s.count('1') % 4 == 0) and (s[-2:] == '11'):
+        cnt += 1
+print(cnt)
 
+#14
+for x in "0123456789abcdefghijklmnopq"[::-1]:
+    a = int(f"8{x}38{x}68", 27)
+    b = int(f"37{x}3163", 27)
+    if (a + b) % 26 == 0:
+        print((a + b) // 26)
+        break
+
+#15
+for A in range(1, 1000):
+    flag = True
+    for x in range(1, 100):
+        for y in range(1, 100):
+            if ((2*y > 5*x) or (x * y < A) or (x >= 22)) == 0:
+                flag = False
+                break
+    if flag == True:    
+        print(A)
